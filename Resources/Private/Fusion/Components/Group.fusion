@@ -1,0 +1,27 @@
+##
+# One publish, or what one person did in live directly in the same minute: who, how much, when; its entries below,
+# the rest folded after the first few (Module.js)
+#
+prototype(Devclaim.NeosActivity:Group) < prototype(Neos.Fusion:Component) {
+    group = null
+    shown = 5
+
+    renderer = afx`
+        <section class="activity__group" data-group>
+            <header class="activity__group-head">
+                <span class={['activity__avatar', 'activity__avatar--large', props.group.userId == 'system' ? 'activity__avatar--system' : null]} aria-hidden="true">{props.group.initials}</span>
+                <span class="activity__group-title">
+                    <span class="activity__who">{props.group.user || ''}</span>
+                    <span class="activity__what">{props.group.summary}</span>
+                </span>
+                <time class="activity__group-time">{props.group.time}</time>
+            </header>
+            <Neos.Fusion:Loop items={props.group.entries} itemName="entry" iterationName="iteration">
+                <Devclaim.NeosActivity:Entry entry={entry} folded={iteration.index >= props.shown}/>
+            </Neos.Fusion:Loop>
+            <button type="button" class="activity__more" data-unfold @if.shown={Array.length(props.group.entries) > props.shown}>
+                {I18n.translate('group.more', null, [Array.length(props.group.entries) - props.shown], 'Main', 'Devclaim.NeosActivity')}
+            </button>
+        </section>
+    `
+}

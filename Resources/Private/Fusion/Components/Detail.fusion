@@ -1,0 +1,113 @@
+##
+# The opened entry (hidden until selected, Module.js): what, who, when, and the change: before and after as the
+# website shows them (kind "change"), the new content (kind "new"), the changed fields, or what the action means
+#
+prototype(Devclaim.NeosActivity:Detail) < prototype(Neos.Fusion:Component) {
+    entry = null
+
+    @private {
+        i18n = 'Devclaim.NeosActivity:Main:'
+    }
+
+    renderer = afx`
+        <article class="activity__article" data-detail={props.entry.key} hidden>
+            <header class="activity__head">
+                <div class="activity__head-text">
+                    <div class="activity__kicker">
+                        {props.entry.itemTypeLabel}
+                        <span @if.shown={props.entry.documentLabel}>{' · ' + I18n.translate('entry.onPage', null, [props.entry.documentLabel], 'Main', 'Devclaim.NeosActivity')}</span>
+                    </div>
+                    <h1 class="activity__title">{props.entry.itemLabel || props.entry.itemTypeLabel}</h1>
+                    <div class="activity__meta">
+                        <span @if.shown={props.entry.user}>
+                            <span class="activity__avatar" aria-hidden="true">{props.entry.initials}</span>
+                            {props.entry.user}
+                        </span>
+                        <span>{I18n.translate('detail.actionAt', null, [props.entry.actionLabel, props.entry.edited], 'Main', 'Devclaim.NeosActivity')}</span>
+                        <span @if.shown={props.entry.published}>{I18n.translate('detail.published', null, [props.entry.published], 'Main', 'Devclaim.NeosActivity')}</span>
+                    </div>
+                </div>
+                <div class="activity__actions">
+                    <a href={props.entry.filterItemUri} class="activity__button" @if.shown={props.entry.filterItemUri}>
+                        {I18n.translate(private.i18n + 'entry.historyOfItem')}
+                    </a>
+                    <a href={props.entry.filterDocumentUri} class="activity__button" @if.shown={props.entry.filterDocumentUri}>
+                        {I18n.translate(private.i18n + 'entry.historyOfPage')}
+                    </a>
+                    <a href={props.entry.openUri} target="_top" class="activity__button" @if.shown={props.entry.openUri}>
+                        <i class="fas fa-external-link-alt" aria-hidden="true"></i>
+                        {I18n.translate(private.i18n + 'entry.open')}
+                    </a>
+                </div>
+            </header>
+
+            <Neos.Fusion:Fragment @if.shown={props.entry.kind == 'change'}>
+                <div class="activity__bar">
+                    <div class="activity__views" role="tablist">
+                        <button type="button" class="activity__view activity__view--active" data-view="side">{I18n.translate(private.i18n + 'view.side')}</button>
+                        <button type="button" class="activity__view" data-view="slider">{I18n.translate(private.i18n + 'view.slider')}</button>
+                    </div>
+                    <span class="activity__hint">{I18n.translate(private.i18n + 'detail.asOnSite')}</span>
+                </div>
+                <div class="activity__compare" data-pane="side">
+                    <figure class="activity__side">
+                        <figcaption><span class="activity__dot"></span>{I18n.translate(private.i18n + 'compare.before')}</figcaption>
+                        <iframe class="activity__frame" data-ref={props.entry.compare.before} data-side="before" title={I18n.translate(private.i18n + 'compare.before')}></iframe>
+                    </figure>
+                    <figure class="activity__side">
+                        <figcaption><span class="activity__dot activity__dot--after"></span>{I18n.translate(private.i18n + 'compare.after')}</figcaption>
+                        <iframe class="activity__frame" data-ref={props.entry.compare.after} data-side="after" title={I18n.translate(private.i18n + 'compare.after')}></iframe>
+                    </figure>
+                </div>
+                <div class="activity__slider-pane" data-pane="slider" hidden>
+                    <div class="activity__stack">
+                        <iframe class="activity__frame" data-ref={props.entry.compare.after} title={I18n.translate(private.i18n + 'compare.after')}></iframe>
+                        <div class="activity__clip">
+                            <iframe class="activity__frame" data-ref={props.entry.compare.before} title={I18n.translate(private.i18n + 'compare.before')}></iframe>
+                        </div>
+                        <!-- the line between before and after, dragged (Module.js); the shield lies over the frames while dragging -->
+                        <div class="activity__shield" hidden></div>
+                        <div class="activity__handle" role="slider" tabindex="0" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" aria-label={I18n.translate(private.i18n + 'view.slider')}>
+                            <span class="activity__grip"><i class="fas fa-arrows-alt-h" aria-hidden="true"></i></span>
+                        </div>
+                        <span class="activity__corner activity__corner--before">{I18n.translate(private.i18n + 'compare.before')}</span>
+                        <span class="activity__corner activity__corner--after">{I18n.translate(private.i18n + 'compare.after')}</span>
+                    </div>
+                </div>
+            </Neos.Fusion:Fragment>
+
+            <Neos.Fusion:Fragment @if.shown={props.entry.kind == 'new'}>
+                <div class="activity__bar">
+                    <span class="activity__hint">{I18n.translate(private.i18n + 'detail.newOnSite')}</span>
+                </div>
+                <div class="activity__single" data-pane="side">
+                    <iframe class="activity__frame" data-ref={props.entry.compare.after} title={I18n.translate(private.i18n + 'view.preview')}></iframe>
+                </div>
+            </Neos.Fusion:Fragment>
+
+            <p class="activity__note" @if.shown={props.entry.kind == 'state'}>
+                {props.entry.note || I18n.translate(private.i18n + 'note.default')}
+            </p>
+
+            <section class="activity__fields" @if.shown={props.entry.changes}>
+                <h2>{I18n.translate(private.i18n + (props.entry.kind == 'new' ? 'detail.content' : 'detail.fields'))}</h2>
+                <dl>
+                    <Neos.Fusion:Loop items={props.entry.changes} itemName="change">
+                        <div class="activity__field">
+                            <dt>{change.label}</dt>
+                            <dd data-old={props.entry.kind == 'new' ? null : change.oldText} data-new={props.entry.kind == 'new' ? null : change.newText}>
+                                <Neos.Fusion:Fragment @if.shown={props.entry.kind == 'new'}>{change.new}</Neos.Fusion:Fragment>
+                                <Neos.Fusion:Fragment @if.shown={props.entry.kind != 'new'}>
+                                    <del @if.shown={change.old}>{change.old}</del>
+                                    <span @if.shown={change.old && change.new}>{' '}</span>
+                                    <ins @if.shown={change.new}>{change.new}</ins>
+                                    <span class="activity__muted" @if.shown={!change.old && !change.new}>{I18n.translate(private.i18n + 'value.empty')}</span>
+                                </Neos.Fusion:Fragment>
+                            </dd>
+                        </div>
+                    </Neos.Fusion:Loop>
+                </dl>
+            </section>
+        </article>
+    `
+}

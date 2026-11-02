@@ -1,0 +1,72 @@
+##
+# The filters on the left: search, period, people, kind of item, kind of change; each with the number of entries
+#
+prototype(Devclaim.NeosActivity:Rail) < prototype(Neos.Fusion:Component) {
+    rail = null
+    filter = null
+    filterLabels = null
+    isFiltered = false
+    indexUri = null
+
+    renderer = afx`
+        <aside class="activity__rail">
+            <form method="get" action={props.indexUri} class="activity__search" role="search">
+                <Neos.Fusion:Loop items={['user', 'type', 'document', 'item', 'period', 'what']} itemName="name">
+                    <input type="hidden" name={'moduleArguments[' + name + ']'} value={props.filter[name]} @if.shown={props.filter[name]}/>
+                </Neos.Fusion:Loop>
+                <input type="search" name="moduleArguments[q]" value={props.filter.q} placeholder={I18n.translate('Devclaim.NeosActivity:Main:filter.search')} aria-label={I18n.translate('Devclaim.NeosActivity:Main:filter.search')}/>
+            </form>
+
+            <a href={props.indexUri} class="activity__reset" @if.shown={props.isFiltered}>
+                <i class="fas fa-times" aria-hidden="true"></i>
+                {I18n.translate('Devclaim.NeosActivity:Main:filter.reset')}
+            </a>
+
+            <section class="activity__rail-section">
+                <h3>{I18n.translate('Devclaim.NeosActivity:Main:filter.period')}</h3>
+                <div class="activity__chips">
+                    <Neos.Fusion:Loop items={props.rail.periods} itemName="option">
+                        <a href={option.uri} class={['activity__period', option.active ? 'activity__period--active' : null]}>{option.label}</a>
+                    </Neos.Fusion:Loop>
+                </div>
+            </section>
+
+            <section class="activity__rail-section">
+                <h3>{I18n.translate('Devclaim.NeosActivity:Main:filter.user')}</h3>
+                <Devclaim.NeosActivity:RailOption option={props.rail.allUsers}/>
+                <Neos.Fusion:Loop items={props.rail.users} itemName="option">
+                    <Devclaim.NeosActivity:RailOption option={option} avatar={option.initials} isSystem={option.isSystem}/>
+                </Neos.Fusion:Loop>
+            </section>
+
+            <section class="activity__rail-section" @if.shown={props.rail.types}>
+                <h3>{I18n.translate('Devclaim.NeosActivity:Main:filter.type')}</h3>
+                <Devclaim.NeosActivity:RailOption option={props.rail.allTypes}/>
+                <Neos.Fusion:Loop items={props.rail.types} itemName="option">
+                    <Devclaim.NeosActivity:RailOption option={option}/>
+                </Neos.Fusion:Loop>
+            </section>
+
+            <section class="activity__rail-section">
+                <h3>{I18n.translate('Devclaim.NeosActivity:Main:filter.what')}</h3>
+                <Neos.Fusion:Loop items={props.rail.whats} itemName="option">
+                    <Devclaim.NeosActivity:RailOption option={option}/>
+                </Neos.Fusion:Loop>
+            </section>
+        </aside>
+    `
+}
+
+prototype(Devclaim.NeosActivity:RailOption) < prototype(Neos.Fusion:Component) {
+    option = null
+    avatar = null
+    isSystem = false
+
+    renderer = afx`
+        <a href={props.option.uri} class={['activity__opt', props.option.active ? 'activity__opt--active' : null]}>
+            <span class={['activity__avatar', props.isSystem ? 'activity__avatar--system' : null]} aria-hidden="true" @if.shown={props.avatar}>{props.avatar}</span>
+            <span class="activity__opt-label">{props.option.label}</span>
+            <span class="activity__count" @if.shown={props.option.count != null}>{props.option.count}</span>
+        </a>
+    `
+}

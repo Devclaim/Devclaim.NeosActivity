@@ -1,0 +1,52 @@
+Devclaim:
+  NeosStyleguide:
+    # the node previews of the compare: "activity:<sequence number>:before|after", rendered by the styleguide adapter
+    # of the frontend (its manifest field nodePreview)
+    nodeReferences:
+      activity: Devclaim\NeosActivity\Compare\ActivityNodeReferenceResolver
+  NeosActivity:
+    # the content repository whose changes the log shows
+    contentRepository: default
+
+    # where the entries come from, merged by time (ActivityLog); a source implements ActivitySourceInterface
+    sources:
+      content:
+        className: Devclaim\NeosActivity\ContentRepository\ContentActivitySource
+        position: start
+
+    # the filter "Art" of the module: key: {label, nodeTypes: [...]}; a label may be a translation id
+    # ("Vendor.Package:Source:id")
+    itemTypes: {}
+
+    # entries per page of the module
+    pageSize: 50
+
+Neos:
+  ContentRepositoryRegistry:
+    presets:
+      default:
+        projections:
+          'Devclaim.NeosActivity:Activity':
+            factoryObjectName: Devclaim\NeosActivity\ContentRepository\ActivityProjectionFactory
+            options:
+              # the changes of this workspace are the log; those of the others count as drafts
+              workspaceName: live
+              # the properties that name a node in the log, the first one that is set
+              labelProperties: ['title', 'label', 'name', 'headline', 'text']
+
+  Neos:
+    modules:
+      management:
+        submodules:
+          activity:
+            label: 'Devclaim.NeosActivity:Main:module.label'
+            controller: 'Devclaim\NeosActivity\Controller\ActivityController'
+            description: 'Devclaim.NeosActivity:Main:module.description'
+            icon: 'fas fa-history'
+            privilegeTarget: 'Devclaim.NeosActivity:Module'
+            mainStylesheet: 'Lite'
+            additionalResources:
+              styleSheets:
+                'Module': 'resource://Devclaim.NeosActivity/Public/Styles/Module.css'
+              javaScripts:
+                'Module': 'resource://Devclaim.NeosActivity/Public/Scripts/Module.js'

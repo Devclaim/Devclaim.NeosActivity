@@ -1,0 +1,22 @@
+##
+# One line of the timeline: what happened to which item; selects the entry (its detail, Detail.fusion)
+#
+prototype(Devclaim.NeosActivity:Entry) < prototype(Neos.Fusion:Component) {
+    entry = null
+    folded = false
+
+    renderer = afx`
+        <button type="button" class="activity__entry" data-entry={props.entry.key} hidden={props.folded ? true : null} data-folded={props.folded ? 'true' : null}>
+            <i class={['activity__icon', props.entry.icon]} aria-hidden="true"></i>
+            <span class="activity__entry-text">
+                <span class="activity__label">{props.entry.itemLabel || props.entry.itemTypeLabel}</span>
+                <span class="activity__sub">
+                    {props.entry.itemLabel ? props.entry.itemTypeLabel : ''}{props.entry.itemLabel && props.entry.documentLabel ? ' · ' : ''}{props.entry.documentLabel || ''}
+                </span>
+            </span>
+            <span class={['activity__tag', 'activity__tag--' + props.entry.action]}>
+                {props.entry.otherUser ? props.entry.otherUser + ' · ' : ''}{props.entry.actionLabel}
+            </span>
+        </button>
+    `
+}

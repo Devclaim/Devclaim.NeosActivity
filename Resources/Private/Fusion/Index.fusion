@@ -1,0 +1,78 @@
+##
+# The log (ActivityController::indexAction) in three panes: the filters, the timeline (by day, a card per publish)
+# and the opened entry. All entries are rendered into the detail pane, Module.js shows the selected one.
+#
+Devclaim.NeosActivity.ActivityController.index = Neos.Fusion:Component {
+    days = ${days}
+    filter = ${filter}
+    filterLabels = ${filterLabels}
+    isFiltered = ${isFiltered}
+    scope = ${scope}
+    rail = ${rail}
+    indexUri = ${indexUri}
+    adapter = ${adapter}
+    site = ${site}
+    nextUri = ${nextUri}
+    firstUri = ${firstUri}
+
+    renderer = afx`
+        <div class="activity" data-activity data-adapter={props.adapter} data-site={props.site}>
+            <button type="button" class="activity__filter-toggle" data-filter-toggle aria-expanded="false">
+                <i class="fas fa-filter" aria-hidden="true"></i>
+                {I18n.translate('Devclaim.NeosActivity:Main:filter.toggle')}
+                <span class="activity__muted" @if.shown={props.isFiltered}>{' · ' + I18n.translate('Devclaim.NeosActivity:Main:filter.active')}</span>
+            </button>
+            <Devclaim.NeosActivity:Rail rail={props.rail} filter={props.filter} filterLabels={props.filterLabels} isFiltered={props.isFiltered} indexUri={props.indexUri}/>
+
+            <nav class="activity__list" data-timeline aria-label={I18n.translate('Devclaim.NeosActivity:Main:module.label')}>
+                <header class="activity__scope" @if.shown={props.scope}>
+                    <i class="fas fa-history" aria-hidden="true"></i>
+                    <div class="activity__scope-text">
+                        <span class="activity__scope-heading">{props.scope.heading}</span>
+                        <strong class="activity__scope-label">{props.scope.label}</strong>
+                    </div>
+                    <a href={props.scope.closeUri} class="activity__scope-close" title={I18n.translate('Devclaim.NeosActivity:Main:scope.close')}>
+                        <i class="fas fa-times" aria-hidden="true"></i>
+                        <span>{I18n.translate('Devclaim.NeosActivity:Main:scope.close')}</span>
+                    </a>
+                </header>
+                <Neos.Fusion:Loop items={props.days} itemName="day">
+                    <h2 class="activity__day" data-day>{day.label}</h2>
+                    <Neos.Fusion:Loop items={day.groups} itemName="group">
+                        <Devclaim.NeosActivity:Group group={group}/>
+                    </Neos.Fusion:Loop>
+                </Neos.Fusion:Loop>
+
+                <p class="activity__empty" @if.shown={!props.days}>
+                    {I18n.translate(props.isFiltered ? 'Devclaim.NeosActivity:Main:empty.filtered' : 'Devclaim.NeosActivity:Main:empty')}
+                </p>
+
+                <div class="activity__paging" data-paging @if.shown={props.nextUri || props.firstUri}>
+                    <a href={props.firstUri} class="activity__button" @if.shown={props.firstUri}>
+                        {I18n.translate('Devclaim.NeosActivity:Main:paging.first')}
+                    </a>
+                    <a href={props.nextUri} class="activity__button" data-older @if.shown={props.nextUri}>
+                        {I18n.translate('Devclaim.NeosActivity:Main:paging.older')}
+                    </a>
+                </div>
+            </nav>
+
+            <main class="activity__detail" data-details>
+                <button type="button" class="activity__back" data-back>
+                    <i class="fas fa-arrow-left" aria-hidden="true"></i>
+                    {I18n.translate('Devclaim.NeosActivity:Main:detail.back')}
+                </button>
+                <p class="activity__placeholder" data-detail-placeholder>
+                    {I18n.translate('Devclaim.NeosActivity:Main:detail.select')}
+                </p>
+                <Neos.Fusion:Loop items={props.days} itemName="day">
+                    <Neos.Fusion:Loop items={day.groups} itemName="group">
+                        <Neos.Fusion:Loop items={group.entries} itemName="entry">
+                            <Devclaim.NeosActivity:Detail entry={entry}/>
+                        </Neos.Fusion:Loop>
+                    </Neos.Fusion:Loop>
+                </Neos.Fusion:Loop>
+            </main>
+        </div>
+    `
+}

@@ -1,0 +1,6 @@
+- requestFilter: 'isPackage("Devclaim.NeosActivity") && isController("Activity")'
+  viewObjectName: 'Neos\Fusion\View\FusionView'
+  options:
+    fusionPathPatterns:
+      - 'resource://Neos.Fusion/Private/Fusion'
+      - 'resource://Devclaim.NeosActivity/Private/Fusion'

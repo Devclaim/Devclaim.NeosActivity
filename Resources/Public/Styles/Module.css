@@ -1,0 +1,900 @@
+/*
+ * The activity log in the look of the Neos backend, in three panes on wide screens: the filters, the timeline and
+ * the opened entry (most of the width). Neos greys, the Neos blue for what is selected, square corners, no borders.
+ */
+.activity {
+	--activity-bg: #1b1b1b;
+	--activity-pane: #222;
+	--activity-row: #2a2a2a;
+	--activity-raised: #323232;
+	--activity-hover: #3a3a3a;
+	--activity-text: #f2f2f2;
+	--activity-muted: #a3a3a3;
+	--activity-faint: #6f6f6f;
+	--activity-blue: #00adee;
+	--activity-blue-soft: rgba(0, 173, 238, 0.14);
+	--activity-blue-strong: #00749f;
+	--activity-created: #7fd8a0;
+	--activity-removed: #ff9b8f;
+	display: grid;
+	grid-template-columns: 240px minmax(340px, 440px) minmax(0, 1fr);
+	height: calc(100vh - 150px);
+	min-height: 480px;
+	margin-top: 16px;
+	background: var(--activity-bg);
+	color: var(--activity-text);
+	font-size: 14px;
+}
+
+/* the Neos backend sizes boxes without their padding */
+.activity *,
+.activity *::before,
+.activity *::after {
+	box-sizing: border-box;
+}
+
+/* and gives buttons and inputs a font of their own */
+.activity button,
+.activity input {
+	font-family: inherit;
+	line-height: 1.4;
+}
+
+.activity a {
+	text-decoration: none;
+}
+
+.activity__muted {
+	color: var(--activity-muted);
+}
+
+.activity__link {
+	color: var(--activity-blue);
+	font-size: 13px;
+}
+
+.activity__link:hover {
+	text-decoration: underline;
+}
+
+.activity button:focus-visible,
+.activity a:focus-visible,
+.activity input:focus-visible {
+	outline: 2px solid var(--activity-blue);
+	outline-offset: -2px;
+}
+
+/* avatars: the initials of a person */
+.activity__avatar {
+	display: inline-flex;
+	flex: none;
+	align-items: center;
+	justify-content: center;
+	width: 24px;
+	height: 24px;
+	border-radius: 50%;
+	background: var(--activity-hover);
+	color: var(--activity-text);
+	font-size: 10px;
+	font-weight: 500;
+}
+
+.activity__avatar--large {
+	width: 30px;
+	height: 30px;
+	font-size: 11px;
+}
+
+.activity__avatar--system {
+	background: transparent;
+	box-shadow: inset 0 0 0 1px var(--activity-faint);
+	color: var(--activity-muted);
+}
+
+/* the filters */
+.activity__rail {
+	display: flex;
+	flex-direction: column;
+	gap: 24px;
+	padding: 20px 16px;
+	overflow-y: auto;
+	background: var(--activity-pane);
+}
+
+.activity__search input {
+	width: 100%;
+	height: 36px;
+	padding: 0 12px;
+	border: 0;
+	border-radius: 0;
+	background: var(--activity-raised);
+	color: var(--activity-text);
+	font-size: 13px;
+}
+
+.activity__rail-section {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+}
+
+.activity__rail h3 {
+	margin: 0 0 8px;
+	color: var(--activity-faint);
+	font-size: 11px;
+	font-weight: 500;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+}
+
+.activity__opt {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	height: 34px;
+	padding: 0 8px;
+	color: var(--activity-text);
+	font-size: 13px;
+}
+
+.activity__opt:hover {
+	background: var(--activity-row);
+	color: var(--activity-text);
+}
+
+.activity__opt--active,
+.activity__opt--active:hover {
+	background: var(--activity-blue-soft);
+	color: var(--activity-blue);
+}
+
+.activity__opt-label {
+	flex: 1;
+	min-width: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.activity__count {
+	color: var(--activity-faint);
+	font-size: 12px;
+	font-variant-numeric: tabular-nums;
+}
+
+.activity__chips {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 4px;
+}
+
+.activity__period {
+	display: inline-flex;
+	align-items: center;
+	height: 28px;
+	padding: 0 10px;
+	background: var(--activity-raised);
+	color: var(--activity-text);
+	font-size: 12px;
+}
+
+.activity__period:hover {
+	background: var(--activity-hover);
+	color: var(--activity-text);
+}
+
+.activity__period--active,
+.activity__period--active:hover {
+	background: var(--activity-blue);
+	color: #fff;
+}
+
+.activity__reset {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	color: var(--activity-blue);
+	font-size: 13px;
+}
+
+.activity__reset:hover {
+	color: var(--activity-text);
+}
+
+/* the history of one element or page: unmistakably not the whole log */
+.activity__scope {
+	display: flex;
+	align-items: center;
+	gap: 14px;
+	margin: 12px 12px 0;
+	padding: 14px 16px;
+	background: var(--activity-blue-strong);
+	color: #fff;
+}
+
+.activity__scope > i {
+	font-size: 18px;
+	opacity: 0.85;
+}
+
+.activity__scope-text {
+	display: flex;
+	flex: 1;
+	flex-direction: column;
+	min-width: 0;
+}
+
+.activity__scope-heading {
+	font-size: 11px;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	opacity: 0.85;
+}
+
+.activity__scope-label {
+	overflow: hidden;
+	font-size: 15px;
+	font-weight: 500;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.activity__scope-close {
+	display: inline-flex;
+	flex: none;
+	align-items: center;
+	gap: 8px;
+	height: 32px;
+	padding: 0 12px;
+	background: rgba(0, 0, 0, 0.2);
+	color: #fff;
+	font-size: 12px;
+}
+
+.activity__scope-close:hover {
+	background: rgba(0, 0, 0, 0.35);
+	color: #fff;
+}
+
+/* the timeline */
+.activity__list {
+	overflow-y: auto;
+	padding-bottom: 40px;
+	background: var(--activity-bg);
+}
+
+.activity__day {
+	position: sticky;
+	top: 0;
+	z-index: 2;
+	margin: 0;
+	padding: 16px 20px 8px;
+	background: var(--activity-bg);
+	color: var(--activity-muted);
+	font-size: 12px;
+	font-weight: 500;
+	line-height: 1.4;
+	text-transform: none;
+}
+
+.activity__group {
+	margin: 0 12px 10px;
+	background: var(--activity-pane);
+}
+
+.activity__group-head {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	padding: 12px 12px 8px;
+}
+
+.activity__group-title {
+	display: flex;
+	flex: 1;
+	flex-direction: column;
+	min-width: 0;
+}
+
+.activity__who {
+	font-size: 13px;
+}
+
+.activity__what {
+	color: var(--activity-muted);
+	font-size: 12px;
+}
+
+.activity__group-time {
+	color: var(--activity-faint);
+	font-size: 12px;
+	font-variant-numeric: tabular-nums;
+}
+
+.activity__entry {
+	display: grid;
+	grid-template-columns: 20px minmax(0, 1fr) auto;
+	align-items: center;
+	gap: 10px;
+	width: 100%;
+	min-height: 44px;
+	padding: 6px 12px 6px 18px;
+	border: 0;
+	border-radius: 0;
+	background: none;
+	color: var(--activity-text);
+	text-align: left;
+	cursor: pointer;
+}
+
+.activity__entry[hidden] {
+	display: none;
+}
+
+.activity__entry:hover {
+	background: var(--activity-row);
+}
+
+.activity__entry--selected,
+.activity__entry--selected:hover {
+	background: var(--activity-blue-soft);
+}
+
+.activity__icon {
+	color: var(--activity-muted);
+	font-size: 12px;
+	text-align: center;
+}
+
+.activity__entry--selected .activity__icon {
+	color: var(--activity-blue);
+}
+
+.activity__entry-text {
+	display: flex;
+	flex-direction: column;
+	min-width: 0;
+}
+
+.activity__label,
+.activity__sub {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.activity__label {
+	font-size: 13px;
+}
+
+.activity__sub {
+	color: var(--activity-faint);
+	font-size: 11px;
+}
+
+.activity__tag {
+	padding: 2px 6px;
+	background: var(--activity-raised);
+	color: var(--activity-muted);
+	font-size: 11px;
+	white-space: nowrap;
+}
+
+.activity__tag--created {
+	color: var(--activity-created);
+}
+
+.activity__tag--removed {
+	color: var(--activity-removed);
+}
+
+.activity__more {
+	width: 100%;
+	height: 32px;
+	border: 0;
+	border-radius: 0;
+	background: none;
+	color: var(--activity-muted);
+	font-size: 12px;
+	cursor: pointer;
+}
+
+.activity__more:hover {
+	background: var(--activity-row);
+	color: var(--activity-text);
+}
+
+.activity__empty {
+	margin: 16px 12px;
+	padding: 20px;
+	background: var(--activity-pane);
+	color: var(--activity-muted);
+}
+
+.activity__paging {
+	display: flex;
+	gap: 1px;
+	margin: 16px 12px 0;
+}
+
+/* the opened entry */
+.activity__detail {
+	min-width: 0;
+	padding: 28px 36px 48px;
+	overflow-y: auto;
+	background: var(--activity-pane);
+}
+
+.activity__placeholder {
+	color: var(--activity-muted);
+}
+
+.activity__article[hidden] {
+	display: none;
+}
+
+.activity__head {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-start;
+	gap: 16px;
+}
+
+.activity__head-text {
+	flex: 1;
+	min-width: 260px;
+}
+
+.activity__kicker {
+	margin-bottom: 6px;
+	color: var(--activity-muted);
+	font-size: 12px;
+}
+
+.activity__title {
+	margin: 0;
+	color: var(--activity-text);
+	font-size: 22px;
+	font-weight: 500;
+	line-height: 1.3;
+	text-transform: none;
+	text-wrap: balance;
+}
+
+.activity__meta {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 8px 18px;
+	margin-top: 12px;
+	color: var(--activity-muted);
+	font-size: 12px;
+}
+
+.activity__meta > span {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.activity__actions {
+	display: flex;
+	gap: 1px;
+}
+
+.activity__button {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	height: 36px;
+	padding: 0 14px;
+	background: var(--activity-raised);
+	color: var(--activity-text);
+	font-size: 13px;
+}
+
+.activity__button:hover {
+	background: var(--activity-hover);
+	color: var(--activity-text);
+}
+
+.activity__button i {
+	color: var(--activity-muted);
+	font-size: 11px;
+}
+
+.activity__bar {
+	display: flex;
+	align-items: center;
+	gap: 16px;
+	margin: 28px 0 14px;
+}
+
+.activity__views {
+	display: flex;
+	gap: 1px;
+}
+
+.activity__view {
+	height: 32px;
+	padding: 0 14px;
+	border: 0;
+	border-radius: 0;
+	background: var(--activity-raised);
+	color: var(--activity-text);
+	font-size: 12px;
+	cursor: pointer;
+}
+
+.activity__view:hover {
+	background: var(--activity-hover);
+}
+
+.activity__view--active,
+.activity__view--active:hover {
+	background: var(--activity-blue);
+}
+
+.activity__hint {
+	color: var(--activity-faint);
+	font-size: 12px;
+}
+
+/* before and after: the website, white in the dark backend */
+.activity__compare {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+	gap: 16px;
+}
+
+.activity__compare[hidden],
+.activity__slider-pane[hidden] {
+	display: none;
+}
+
+.activity__side {
+	min-width: 0;
+	margin: 0;
+}
+
+.activity__side figcaption {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	margin-bottom: 8px;
+	color: var(--activity-muted);
+	font-size: 12px;
+}
+
+.activity__dot {
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	background: var(--activity-faint);
+}
+
+.activity__dot--after {
+	background: var(--activity-blue);
+}
+
+.activity__single {
+	max-width: 960px;
+}
+
+.activity__frame {
+	display: block;
+	width: 100%;
+	height: 200px;
+	border: 0;
+	background: #fff;
+}
+
+.activity__stack {
+	position: relative;
+	max-width: 960px;
+}
+
+.activity__clip {
+	position: absolute;
+	inset: 0;
+	overflow: hidden;
+	clip-path: inset(0 50% 0 0);
+}
+
+.activity__clip .activity__frame {
+	height: 100%;
+}
+
+.activity__shield {
+	position: absolute;
+	inset: 0;
+	z-index: 2;
+	cursor: ew-resize;
+}
+
+/* the line between before and after, dragged directly; wider than it looks, so it is easy to grab */
+.activity__handle {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 50%;
+	z-index: 3;
+	width: 24px;
+	margin-left: -12px;
+	cursor: ew-resize;
+	touch-action: none;
+}
+
+.activity__handle::before {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 11px;
+	width: 2px;
+	background: var(--activity-blue);
+	content: '';
+}
+
+.activity__grip {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 32px;
+	height: 32px;
+	border-radius: 50%;
+	background: var(--activity-blue);
+	color: #fff;
+	font-size: 13px;
+	transform: translate(-50%, -50%);
+}
+
+.activity__handle:focus-visible .activity__grip {
+	outline: 2px solid #fff;
+	outline-offset: 2px;
+}
+
+/* which side is which, in the corners of the frames */
+.activity__corner {
+	position: absolute;
+	top: 8px;
+	z-index: 1;
+	padding: 2px 8px;
+	background: rgba(0, 0, 0, 0.6);
+	color: #fff;
+	font-size: 11px;
+	pointer-events: none;
+}
+
+.activity__corner--before {
+	left: 8px;
+}
+
+.activity__corner--after {
+	right: 8px;
+}
+
+/* the adapter of the frontend cannot show nodes (no nodePreview in its manifest): the fields only */
+.activity__article--no-preview .activity__bar,
+.activity__article--no-preview [data-pane] {
+	display: none;
+}
+
+/* what the action means, when there is nothing to compare */
+.activity__note {
+	max-width: 960px;
+	margin: 28px 0 0;
+	padding: 20px 22px;
+	background: var(--activity-row);
+	color: var(--activity-muted);
+	font-size: 13px;
+	line-height: 1.6;
+}
+
+/* the changed fields */
+.activity__fields {
+	margin-top: 32px;
+}
+
+.activity__fields h2 {
+	margin: 0 0 10px;
+	color: var(--activity-muted);
+	font-size: 13px;
+	font-weight: 500;
+	text-transform: none;
+}
+
+.activity__fields dl {
+	display: grid;
+	gap: 1px;
+	margin: 0;
+}
+
+.activity__field {
+	display: grid;
+	grid-template-columns: minmax(120px, 180px) minmax(0, 1fr);
+	gap: 1px;
+}
+
+.activity__field dt,
+.activity__field dd {
+	margin: 0;
+	padding: 10px 14px;
+	background: var(--activity-row);
+	font-size: 13px;
+	line-height: 1.5;
+}
+
+.activity__field dt {
+	color: var(--activity-muted);
+	font-weight: 400;
+}
+
+.activity__field dd {
+	overflow-wrap: anywhere;
+}
+
+.activity__field ins {
+	background: rgba(0, 163, 56, 0.32);
+	color: var(--activity-text);
+	text-decoration: none;
+}
+
+.activity__field del {
+	color: var(--activity-faint);
+}
+
+@media (max-width: 1280px) {
+	.activity {
+		grid-template-columns: 200px minmax(300px, 360px) minmax(0, 1fr);
+	}
+
+	.activity__detail {
+		padding: 24px;
+	}
+}
+
+/*
+ * Only on a phone: the button that shows the filters, the way back from an entry (".activity": stronger than the
+ * button styles of the Neos backend)
+ */
+.activity .activity__filter-toggle,
+.activity .activity__back {
+	display: none;
+}
+
+/*
+ * Narrow (a phone, a small window): one pane at a time, like a mail app. The list; the filters above it behind a
+ * button; an entry opened from the list in its place, with a way back.
+ */
+@media (max-width: 1000px) {
+	/*
+	 * Edge to edge: Neos pads every module page 54px on each side (.neos-module-wrap). The module reaches over that
+	 * padding instead of removing it, the breadcrumb keeps 16px; the page itself stays as Neos lays it out.
+	 */
+	.neos-module-management-activity .neos-breadcrumb {
+		margin-right: -38px;
+		margin-left: -38px;
+	}
+
+	.activity {
+		display: block;
+		height: auto;
+		min-height: 0;
+		margin: 8px -54px 0;
+	}
+
+	.activity__list {
+		padding: 0 0 16px;
+	}
+
+	.activity__day {
+		padding: 14px 16px 8px;
+	}
+
+	.activity__group-head {
+		padding: 12px 16px 8px;
+	}
+
+	.activity__entry {
+		padding: 8px 16px;
+	}
+
+	.activity__rail {
+		padding: 16px;
+	}
+
+	.activity__paging {
+		margin: 8px 16px 0;
+	}
+
+	.activity__empty {
+		margin: 16px;
+	}
+
+	.activity__rail,
+	.activity__list,
+	.activity__detail {
+		overflow: visible;
+	}
+
+	.activity .activity__filter-toggle,
+	.activity .activity__back {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		width: 100%;
+		height: 44px;
+		padding: 0 16px;
+		border: 0;
+		border-radius: 0;
+		background: var(--activity-raised);
+		color: var(--activity-text);
+		font-size: 14px;
+		text-align: left;
+		cursor: pointer;
+	}
+
+	.activity .activity__back {
+		width: auto;
+		margin: -8px 0 20px;
+		padding: 0 14px;
+	}
+
+	.activity__rail {
+		display: none;
+	}
+
+	.activity--filters-open .activity__rail {
+		display: flex;
+	}
+
+	.activity__detail {
+		display: none;
+		padding: 16px;
+	}
+
+	.activity--detail-open .activity__detail {
+		display: block;
+	}
+
+	.activity--detail-open .activity__list,
+	.activity--detail-open .activity__rail,
+	.activity.activity--detail-open .activity__filter-toggle {
+		display: none;
+	}
+
+	.activity__group {
+		margin: 0 0 8px;
+	}
+
+	.activity__head {
+		flex-direction: column;
+	}
+
+	.activity__head-text {
+		min-width: 0;
+	}
+
+	.activity__title {
+		font-size: 19px;
+	}
+
+	.activity__actions {
+		flex-wrap: wrap;
+	}
+
+	.activity__compare {
+		grid-template-columns: 1fr;
+	}
+
+	.activity__bar {
+		flex-wrap: wrap;
+	}
+
+	.activity__field {
+		grid-template-columns: 1fr;
+	}
+}

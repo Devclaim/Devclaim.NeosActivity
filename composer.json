@@ -1,0 +1,23 @@
+{
+	"name": "devclaim/neos-activity",
+	"description": "An activity log of the Neos backend, built from the event-sourced content repository",
+	"type": "neos-package",
+	"license": "GPL-3.0-or-later",
+	"require": {
+		"php": ">=8.4",
+		"neos/flow": "^9.2",
+		"neos/neos": "^9.2",
+		"neos/neos-ui": "^9.2",
+		"devclaim/neos-styleguide": "*"
+	},
+	"autoload": {
+		"psr-4": {
+			"Devclaim\\NeosActivity\\": "Classes/"
+		}
+	},
+	"extra": {
+		"neos": {
+			"package-key": "Devclaim.NeosActivity"
+		}
+	}
+}

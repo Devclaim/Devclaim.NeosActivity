@@ -1,0 +1,21 @@
+privilegeTargets:
+  'Neos\Flow\Security\Authorization\Privilege\Method\MethodPrivilege':
+    'Devclaim.NeosActivity:Module.Actions':
+      label: 'See the activity log'
+      matcher: 'method(Devclaim\NeosActivity\Controller\ActivityController->indexAction())'
+
+  'Neos\Neos\Security\Authorization\Privilege\ModulePrivilege':
+    'Devclaim.NeosActivity:Module':
+      label: 'Open the activity backend module'
+      matcher: 'management/activity'
+
+roles:
+  # the log shows who did what and when: personal data of the editors, administrators only
+  'Neos.Neos:Administrator':
+    privileges:
+      -
+        privilegeTarget: 'Devclaim.NeosActivity:Module'
+        permission: GRANT
+      -
+        privilegeTarget: 'Devclaim.NeosActivity:Module.Actions'
+        permission: GRANT

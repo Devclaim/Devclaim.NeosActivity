@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file original="" product-name="Devclaim.NeosActivity" source-language="en" target-language="de" datatype="plaintext">
+        <body>
+            <trans-unit id="module.label" xml:space="preserve"><source>Activity</source><target>Aktivität</target></trans-unit>
+            <trans-unit id="module.description" xml:space="preserve"><source>Who changed what and when</source><target>Wer hat wann was geändert</target></trans-unit>
+
+            <trans-unit id="filter.user" xml:space="preserve"><source>User</source><target>Person</target></trans-unit>
+            <trans-unit id="filter.type" xml:space="preserve"><source>Kind</source><target>Art</target></trans-unit>
+            <trans-unit id="filter.allUsers" xml:space="preserve"><source>All users</source><target>Alle Personen</target></trans-unit>
+            <trans-unit id="filter.allTypes" xml:space="preserve"><source>All kinds</source><target>Alle Arten</target></trans-unit>
+            <trans-unit id="filter.document" xml:space="preserve"><source>Page</source><target>Seite</target></trans-unit>
+            <trans-unit id="filter.item" xml:space="preserve"><source>Element</source><target>Element</target></trans-unit>
+            <trans-unit id="filter.toggle" xml:space="preserve"><source>Filters</source><target>Filter</target></trans-unit>
+            <trans-unit id="filter.active" xml:space="preserve"><source>active</source><target>aktiv</target></trans-unit>
+            <trans-unit id="detail.back" xml:space="preserve"><source>Back to the list</source><target>Zurück zur Liste</target></trans-unit>
+            <trans-unit id="scope.item" xml:space="preserve"><source>History of the element</source><target>Verlauf des Elements</target></trans-unit>
+            <trans-unit id="scope.document" xml:space="preserve"><source>History of the page</source><target>Verlauf der Seite</target></trans-unit>
+            <trans-unit id="scope.unknown" xml:space="preserve"><source>(not in this period)</source><target>(nicht in diesem Zeitraum)</target></trans-unit>
+            <trans-unit id="scope.close" xml:space="preserve"><source>All entries</source><target>Alle Einträge</target></trans-unit>
+            <trans-unit id="filter.reset" xml:space="preserve"><source>Reset all filters</source><target>Alle Filter zurücksetzen</target></trans-unit>
+
+            <trans-unit id="empty" xml:space="preserve"><source>Nothing has happened yet.</source><target>Noch ist nichts passiert.</target></trans-unit>
+            <trans-unit id="empty.filtered" xml:space="preserve"><source>Nothing for these filters.</source><target>Nichts für diese Filter.</target></trans-unit>
+            <trans-unit id="paging.first" xml:space="preserve"><source>Newest</source><target>Neueste</target></trans-unit>
+            <trans-unit id="paging.older" xml:space="preserve"><source>Load older</source><target>Ältere laden</target></trans-unit>
+            <trans-unit id="day.today" xml:space="preserve"><source>Today</source><target>Heute</target></trans-unit>
+            <trans-unit id="day.yesterday" xml:space="preserve"><source>Yesterday</source><target>Gestern</target></trans-unit>
+
+            <trans-unit id="group.published.one" xml:space="preserve"><source>published 1 change</source><target>hat 1 Änderung veröffentlicht</target></trans-unit>
+            <trans-unit id="group.published.many" xml:space="preserve"><source>published {0} changes</source><target>hat {0} Änderungen veröffentlicht</target></trans-unit>
+            <trans-unit id="group.direct.one" xml:space="preserve"><source>made 1 change</source><target>hat 1 Änderung gemacht</target></trans-unit>
+            <trans-unit id="group.direct.many" xml:space="preserve"><source>made {0} changes</source><target>hat {0} Änderungen gemacht</target></trans-unit>
+
+            <trans-unit id="entry.onPage" xml:space="preserve"><source>on {0}</source><target>auf {0}</target></trans-unit>
+            <trans-unit id="entry.open" xml:space="preserve"><source>Open</source><target>Öffnen</target></trans-unit>
+            <trans-unit id="entry.historyOfPage" xml:space="preserve"><source>History of the page</source><target>Verlauf der Seite</target></trans-unit>
+            <trans-unit id="entry.historyOfItem" xml:space="preserve"><source>History</source><target>Verlauf</target></trans-unit>
+
+            <trans-unit id="view.preview" xml:space="preserve"><source>Preview</source><target>Vorschau</target></trans-unit>
+            <trans-unit id="view.side" xml:space="preserve"><source>Side by side</source><target>Nebeneinander</target></trans-unit>
+            <trans-unit id="view.slider" xml:space="preserve"><source>Slider</source><target>Regler</target></trans-unit>
+            <trans-unit id="compare.before" xml:space="preserve"><source>Before</source><target>Vorher</target></trans-unit>
+            <trans-unit id="compare.after" xml:space="preserve"><source>After</source><target>Nachher</target></trans-unit>
+
+            <trans-unit id="filter.search" xml:space="preserve"><source>Page, element, word …</source><target>Seite, Element, Wort …</target></trans-unit>
+            <trans-unit id="filter.period" xml:space="preserve"><source>Period</source><target>Zeitraum</target></trans-unit>
+            <trans-unit id="filter.what" xml:space="preserve"><source>What</source><target>Was</target></trans-unit>
+            <trans-unit id="period.all" xml:space="preserve"><source>All</source><target>Alles</target></trans-unit>
+            <trans-unit id="period.today" xml:space="preserve"><source>Today</source><target>Heute</target></trans-unit>
+            <trans-unit id="period.7d" xml:space="preserve"><source>7 days</source><target>7 Tage</target></trans-unit>
+            <trans-unit id="period.30d" xml:space="preserve"><source>30 days</source><target>30 Tage</target></trans-unit>
+            <trans-unit id="what.all" xml:space="preserve"><source>Everything</source><target>Alles</target></trans-unit>
+            <trans-unit id="what.changed" xml:space="preserve"><source>Changed</source><target>Geändert</target></trans-unit>
+            <trans-unit id="what.created" xml:space="preserve"><source>Created</source><target>Erstellt</target></trans-unit>
+            <trans-unit id="what.hidden" xml:space="preserve"><source>Hidden and deleted</source><target>Versteckt und gelöscht</target></trans-unit>
+
+            <trans-unit id="group.more" xml:space="preserve"><source>{0} more</source><target>{0} weitere</target></trans-unit>
+            <trans-unit id="entry.fromWorkspace" xml:space="preserve"><source>from {0}</source><target>aus {0}</target></trans-unit>
+
+            <trans-unit id="detail.select" xml:space="preserve"><source>Select an entry on the left.</source><target>Wähle links einen Eintrag.</target></trans-unit>
+            <trans-unit id="detail.actionAt" xml:space="preserve"><source>{0} {1}</source><target>{0} {1}</target></trans-unit>
+            <trans-unit id="detail.published" xml:space="preserve"><source>Published {0}</source><target>Veröffentlicht {0}</target></trans-unit>
+            <trans-unit id="detail.asOnSite" xml:space="preserve"><source>As it looks on the website</source><target>So sieht es auf der Website aus</target></trans-unit>
+            <trans-unit id="detail.newOnSite" xml:space="preserve"><source>New on the website</source><target>Neu auf der Website</target></trans-unit>
+            <trans-unit id="detail.fields" xml:space="preserve"><source>Changed fields</source><target>Geänderte Felder</target></trans-unit>
+            <trans-unit id="detail.content" xml:space="preserve"><source>Content</source><target>Inhalt</target></trans-unit>
+
+            <trans-unit id="note.hidden" xml:space="preserve"><source>Not shown on the website since. It is not deleted: it can be shown again in Neos.</source><target>Seitdem auf der Website nicht mehr zu sehen. Es ist nicht gelöscht: in Neos kann es wieder sichtbar gemacht werden.</target></trans-unit>
+            <trans-unit id="note.shown" xml:space="preserve"><source>Shown on the website again since.</source><target>Seitdem wieder auf der Website zu sehen.</target></trans-unit>
+            <trans-unit id="note.removed" xml:space="preserve"><source>Deleted. Until it is removed for good, it can be restored in the trash bin of the workspaces module.</source><target>Gelöscht. Bis es endgültig entfernt ist, kann es im Papierkorb des Moduls Arbeitsbereiche wiederhergestellt werden.</target></trans-unit>
+            <trans-unit id="note.restored" xml:space="preserve"><source>Restored from the trash bin.</source><target>Aus dem Papierkorb wiederhergestellt.</target></trans-unit>
+            <trans-unit id="note.moved" xml:space="preserve"><source>Moved to another place.</source><target>An eine andere Stelle verschoben.</target></trans-unit>
+            <trans-unit id="note.sorted" xml:space="preserve"><source>Moved up or down on its page.</source><target>Auf seiner Seite nach oben oder unten verschoben.</target></trans-unit>
+            <trans-unit id="note.default" xml:space="preserve"><source>Nothing to compare for this change.</source><target>Für diese Änderung gibt es nichts zu vergleichen.</target></trans-unit>
+
+            <trans-unit id="action.created" xml:space="preserve"><source>Created</source><target>Erstellt</target></trans-unit>
+            <trans-unit id="action.changed" xml:space="preserve"><source>Changed</source><target>Geändert</target></trans-unit>
+            <trans-unit id="action.moved" xml:space="preserve"><source>Moved</source><target>Verschoben</target></trans-unit>
+            <trans-unit id="action.sorted" xml:space="preserve"><source>Reordered</source><target>Umsortiert</target></trans-unit>
+            <trans-unit id="action.hidden" xml:space="preserve"><source>Hidden</source><target>Versteckt</target></trans-unit>
+            <trans-unit id="action.shown" xml:space="preserve"><source>Shown</source><target>Sichtbar gemacht</target></trans-unit>
+            <trans-unit id="action.removed" xml:space="preserve"><source>Deleted</source><target>Gelöscht</target></trans-unit>
+            <trans-unit id="action.restored" xml:space="preserve"><source>Restored</source><target>Wiederhergestellt</target></trans-unit>
+            <trans-unit id="action.tagged" xml:space="preserve"><source>Tagged</source><target>Markiert</target></trans-unit>
+            <trans-unit id="action.untagged" xml:space="preserve"><source>Untagged</source><target>Markierung entfernt</target></trans-unit>
+            <trans-unit id="action.translated" xml:space="preserve"><source>Translated</source><target>Übersetzt</target></trans-unit>
+
+            <trans-unit id="change.nodeType" xml:space="preserve"><source>Type</source><target>Typ</target></trans-unit>
+            <trans-unit id="change.nodeName" xml:space="preserve"><source>Name</source><target>Name</target></trans-unit>
+            <trans-unit id="change.tag" xml:space="preserve"><source>Tag</source><target>Markierung</target></trans-unit>
+            <trans-unit id="change.dimension" xml:space="preserve"><source>Language</source><target>Sprache</target></trans-unit>
+
+            <trans-unit id="value.yes" xml:space="preserve"><source>yes</source><target>ja</target></trans-unit>
+            <trans-unit id="value.no" xml:space="preserve"><source>no</source><target>nein</target></trans-unit>
+            <trans-unit id="value.items" xml:space="preserve"><source>{0} selected</source><target>{0} ausgewählt</target></trans-unit>
+            <trans-unit id="value.asset" xml:space="preserve"><source>a file</source><target>eine Datei</target></trans-unit>
+            <trans-unit id="value.empty" xml:space="preserve"><source>emptied</source><target>geleert</target></trans-unit>
+
+            <trans-unit id="user.system" xml:space="preserve"><source>System</source><target>System</target></trans-unit>
+        </body>
+    </file>
+</xliff>

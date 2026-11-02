@@ -1,0 +1,10 @@
+Devclaim\NeosActivity\ContentRepository\ActivityProjectionFactory:
+  arguments:
+    2:
+      # the system log; a name with a dot ('Neos.Flow:SystemLogger') would be read as a settings path
+      object:
+        factoryObjectName: Neos\Flow\Log\PsrLoggerFactoryInterface
+        factoryMethodName: get
+        arguments:
+          1:
+            value: systemLogger
