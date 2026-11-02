@@ -39,6 +39,7 @@ use Neos\Neos\FrontendRouting\SiteDetection\SiteDetectionResult;
 final class ActivityController extends AbstractModuleController
 {
     private const VALUE_LENGTH = 300;
+    private const GROUP_ENTRIES_SHOWN = 5;
     /** the values compared word by word in the browser (Module.js) */
     private const TEXT_LENGTH = 5000;
     private const PACKAGE = 'Devclaim.NeosActivity';
@@ -325,6 +326,8 @@ final class ActivityController extends AbstractModuleController
             $group = [
                 ...$head,
                 'entries' => $groupEntries[$index],
+                'documents' => $this->documentsOf($groupEntries[$index]),
+                'hidden' => max(0, $count - self::GROUP_ENTRIES_SHOWN),
                 'summary' => $this->translate(
                     ($head['isPublish'] ? 'group.published.' : 'group.direct.') . ($count === 1 ? 'one' : 'many'),
                     [$count]
@@ -338,6 +341,47 @@ final class ActivityController extends AbstractModuleController
             }
         }
         return $days;
+    }
+
+    /**
+     * The changes of one publish/direct-edit group, collected by page in first-seen order. The flat entries remain on
+     * the group for the detail pane; these document groups are the Workspace-like hierarchy of the timeline.
+     *
+     * @param list<array<string, mixed>> $entries
+     * @return list<array<string, mixed>>
+     */
+    private function documentsOf(array $entries): array
+    {
+        $documents = [];
+        $indexes = [];
+        foreach ($entries as $entryIndex => $entry) {
+            $key = $entry['documentId'] ?? ('entry:' . $entry['key']);
+            if (!isset($indexes[$key])) {
+                $indexes[$key] = count($documents);
+                $documents[] = [
+                    'label' => $entry['pageLabel']
+                        ?? ($this->translate('group.page.unknown') ?? 'Other'),
+                    'folded' => $entryIndex >= self::GROUP_ENTRIES_SHOWN,
+                    'entries' => [],
+                ];
+            }
+            $documentIndex = $indexes[$key];
+            $documents[$documentIndex]['entries'][] = [
+                ...$entry,
+                'folded' => $entryIndex >= self::GROUP_ENTRIES_SHOWN,
+            ];
+        }
+
+        foreach ($documents as &$document) {
+            $count = count($document['entries']);
+            $document['summary'] = $this->translate(
+                'group.page.' . ($count === 1 ? 'one' : 'many'),
+                [$count]
+            ) ?? (string)$count;
+        }
+        unset($document);
+
+        return $documents;
     }
 
     /**
@@ -377,20 +421,28 @@ final class ActivityController extends AbstractModuleController
             : null;
 
         // the node references of the previews (ActivityNodeReferenceResolver), of content only: a page shows its
-        // fields, its content has entries of its own
-        $compare = $this->nodeVersions->isComparable($entry)
-            && $nodeType?->isOfType(NodeTypeNameFactory::NAME_CONTENT) === true
-            && $this->styleguideAdapter() !== null
-            ? [
+        // fields, its content has entries of its own. Removed content: as it was (from the trash bin), outlined
+        $isContent = $nodeType?->isOfType(NodeTypeNameFactory::NAME_CONTENT) === true
+            && $this->styleguideAdapter() !== null;
+        $isRemoval = $isContent && $this->nodeVersions->isRemoval($entry);
+        $compare = match (true) {
+            $isRemoval => [
+                'before' => null,
+                'after' => ActivityNodeReferenceResolver::reference($entry, CompareSide::After),
+                'removed' => true,
+            ],
+            $isContent && $this->nodeVersions->isComparable($entry) => [
                 'before' => $entry->action === 'created'
                     ? null
                     : ActivityNodeReferenceResolver::reference($entry, CompareSide::Before),
                 'after' => ActivityNodeReferenceResolver::reference($entry, CompareSide::After),
-            ]
-            : null;
+                'removed' => false,
+            ],
+            default => null,
+        };
 
         $hasCompare = $compare !== null;
-        $isNew = $compare !== null && $compare['before'] === null;
+        $isNew = $hasCompare && !$isRemoval && $compare['before'] === null;
         $userLabel = $entry->userId === null ? null : $this->userLabel($entry->userId);
         $edited = $initiatedAt ?? $entry->time;
 
@@ -398,6 +450,7 @@ final class ActivityController extends AbstractModuleController
             'key' => $entry->source . '-' . $entry->key,
             // what the detail pane shows: before and after, the new content, the fields, or what the action means
             'kind' => match (true) {
+                $isRemoval => 'removed',
                 $isNew => 'new',
                 $hasCompare => 'change',
                 $entry->changes !== [] => 'fields',
@@ -425,6 +478,9 @@ final class ActivityController extends AbstractModuleController
             'itemTypeLabel' => $nodeType === null
                 ? $entry->itemType
                 : ($this->translateLabel($nodeType->getLabel()) ?? $entry->itemType),
+            'documentId' => $entry->documentId,
+            'pageLabel' => $entry->documentLabel
+                ?? ($entry->documentId === $entry->itemId ? $entry->itemLabel : null),
             'documentLabel' => $entry->documentId === $entry->itemId ? null : $entry->documentLabel,
             'changes' => array_values(array_filter(array_map(
                 fn (ActivityChange $change) => $this->changeView($change, $nodeTypeManager),

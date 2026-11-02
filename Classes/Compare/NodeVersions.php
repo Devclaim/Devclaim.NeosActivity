@@ -38,6 +38,15 @@ final class NodeVersions
             && $this->propertyChanges($entry) !== [];
     }
 
+    /**
+     * Whether an entry is the removal of content: shown as it was (the node soft removed by Neos, in the trash bin
+     * until it is removed for good)
+     */
+    public function isRemoval(ActivityEntry $entry): bool
+    {
+        return $entry->source === ContentActivitySource::SOURCE && $entry->action === 'removed';
+    }
+
     public function apply(Node $node, ActivityEntry $entry, CompareSide $side): Node
     {
         $values = $node->properties->serialized();

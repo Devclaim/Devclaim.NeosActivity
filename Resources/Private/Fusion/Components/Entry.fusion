@@ -11,7 +11,7 @@ prototype(Devclaim.NeosActivity:Entry) < prototype(Neos.Fusion:Component) {
             <span class="activity__entry-text">
                 <span class="activity__label">{props.entry.itemLabel || props.entry.itemTypeLabel}</span>
                 <span class="activity__sub">
-                    {props.entry.itemLabel ? props.entry.itemTypeLabel : ''}{props.entry.itemLabel && props.entry.documentLabel ? ' · ' : ''}{props.entry.documentLabel || ''}
+                    {props.entry.itemLabel ? props.entry.itemTypeLabel : ''}
                 </span>
             </span>
             <span class={['activity__tag', 'activity__tag--' + props.entry.action]}>

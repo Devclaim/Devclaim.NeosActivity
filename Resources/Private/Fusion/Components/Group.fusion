@@ -1,10 +1,9 @@
 ##
-# One publish, or what one person did in live directly in the same minute: who, how much, when; its entries below,
-# the rest folded after the first few (Module.js)
+# One publish, or what one person did in live directly in the same minute: who, how much, when; its entries grouped by
+# page below, the rest folded after the first few (Module.js)
 #
 prototype(Devclaim.NeosActivity:Group) < prototype(Neos.Fusion:Component) {
     group = null
-    shown = 5
 
     renderer = afx`
         <section class="activity__group" data-group>
@@ -16,11 +15,26 @@ prototype(Devclaim.NeosActivity:Group) < prototype(Neos.Fusion:Component) {
                 </span>
                 <time class="activity__group-time">{props.group.time}</time>
             </header>
-            <Neos.Fusion:Loop items={props.group.entries} itemName="entry" iterationName="iteration">
-                <Devclaim.NeosActivity:Entry entry={entry} folded={iteration.index >= props.shown}/>
-            </Neos.Fusion:Loop>
-            <button type="button" class="activity__more" data-unfold @if.shown={Array.length(props.group.entries) > props.shown}>
-                {I18n.translate('group.more', null, [Array.length(props.group.entries) - props.shown], 'Main', 'Devclaim.NeosActivity')}
+            <div class="activity__documents">
+                <Neos.Fusion:Loop items={props.group.documents} itemName="document">
+                    <section class="activity__document" data-document hidden={document.folded ? true : null} data-folded={document.folded ? 'true' : null}>
+                        <header class="activity__document-head">
+                            <i class="fas fa-globe activity__document-icon" aria-hidden="true"></i>
+                            <span class="activity__document-text">
+                                <span class="activity__document-title">{document.label}</span>
+                                <span class="activity__document-sub">{document.summary}</span>
+                            </span>
+                        </header>
+                        <div class="activity__document-entries">
+                            <Neos.Fusion:Loop items={document.entries} itemName="entry">
+                                <Devclaim.NeosActivity:Entry entry={entry} folded={entry.folded}/>
+                            </Neos.Fusion:Loop>
+                        </div>
+                    </section>
+                </Neos.Fusion:Loop>
+            </div>
+            <button type="button" class="activity__more" data-unfold @if.shown={props.group.hidden > 0}>
+                {I18n.translate('group.more', null, [props.group.hidden], 'Main', 'Devclaim.NeosActivity')}
             </button>
         </section>
     `

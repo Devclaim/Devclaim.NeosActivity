@@ -19,10 +19,11 @@ what and when, personal data of the editors. Three panes on wide screens:
 
 - **Filters**, each with the number of entries: search (the name of the item or its page), period, user, kind of
     item (`itemTypes`), kind of change; page and element come from the links "History" of an entry.
-- **Timeline**: by day, a card per publish (or per person and minute for changes made in live directly), big cards
-    folded after five entries. Arrow keys move through it.
+- **Timeline**: by day, a card per publish (or per person and minute for changes made in live directly). Within each
+    card the changes are grouped by page, like the Workspace review, and the changed elements are nested below their
+    page. Big cards are folded after five entries. Arrow keys move through them.
 - **The selected entry**: what, who, when edited and published, links to its history and to the page in Neos, and
-    the change (see the compare below), or what the action means (hidden, deleted, moved).
+    the change (see the compare below): deleted content as it was, or what the action means (hidden, moved).
 
 ## The compare
 
@@ -38,6 +39,8 @@ or new values (the other properties and the child nodes as they are now). The fr
 `activity:<sequence number>:before|after`, which `ActivityNodeReferenceResolver` resolves (only for who may see the
 log). The page renders the node with the components and styles of the website, inside `data-styleguide-root`; the
 module sizes its frame to that element.
+
+Deleted content is shown as it was, from the trash bin of Neos (until it is emptied), outlined in red.
 
 The frames, the views and the word diff are the compare of `Devclaim.NeosModernBackend` (required), shared with the
 review of the workspace module. An adapter without `nodePreview` (or no adapter configured): the module shows the

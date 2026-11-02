@@ -1,7 +1,8 @@
 ##
 # The opened entry (hidden until selected, Module.js): what, who, when, and the change: before and after as the
-# website shows them (kind "change"), the new content (kind "new"; both the compare of Devclaim.NeosModernBackend),
-# the changed fields, or what the action means
+# website shows them (kind "change"), the new content (kind "new"), removed content as it was (kind "removed", with
+# what the removal means; all three the compare of Devclaim.NeosModernBackend), the changed fields, or what the action
+# means
 #
 prototype(Devclaim.NeosActivity:Detail) < prototype(Neos.Fusion:Component) {
     entry = null
@@ -45,7 +46,13 @@ prototype(Devclaim.NeosActivity:Detail) < prototype(Neos.Fusion:Component) {
             </header>
 
             <div class="activity__compare" @if.shown={props.entry.compare}>
-                <Devclaim.NeosModernBackend:Compare before={props.entry.compare.before} after={props.entry.compare.after} site={props.site}/>
+                <Devclaim.NeosModernBackend:Compare
+                    before={props.entry.compare.before}
+                    after={props.entry.compare.after}
+                    removed={props.entry.compare.removed}
+                    hint={props.entry.kind == 'removed' ? props.entry.note : ''}
+                    site={props.site}
+                />
             </div>
 
             <p class="activity__note" @if.shown={props.entry.kind == 'state'}>

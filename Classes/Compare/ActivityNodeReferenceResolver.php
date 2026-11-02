@@ -9,6 +9,7 @@ use Devclaim\NeosActivity\Domain\ActivityEntry;
 use Devclaim\NeosStyleguide\NodeReferences\NodeReferenceResolverInterface;
 use Neos\ContentRepository\Core\DimensionSpace\DimensionSpacePoint;
 use Neos\ContentRepository\Core\Projection\ContentGraph\Node;
+use Neos\ContentRepository\Core\Projection\ContentGraph\VisibilityConstraints;
 use Neos\ContentRepository\Core\SharedModel\Node\NodeAggregateId;
 use Neos\ContentRepository\Core\SharedModel\Workspace\WorkspaceName;
 use Neos\ContentRepositoryRegistry\ContentRepositoryRegistry;
@@ -19,7 +20,8 @@ use Neos\Neos\Domain\SubtreeTagging\NeosVisibilityConstraints;
 /**
  * The node previews of the activity log (node references of Devclaim.NeosStyleguide, prefix "activity"):
  * "activity:<sequence number>:before|after", the node of an entry as it was before or after its change (NodeVersions),
- * rendered by the adapter of the frontend. Only for who may see the log; also when the node or its page is hidden now.
+ * rendered by the adapter of the frontend; of a removal (after): the removed node as it is in the trash bin. Only for
+ * who may see the log; also when the node or its page is hidden now.
  */
 #[Flow\Scope('singleton')]
 final class ActivityNodeReferenceResolver implements NodeReferenceResolverInterface
@@ -54,19 +56,30 @@ final class ActivityNodeReferenceResolver implements NodeReferenceResolverInterf
         [$key, $sideValue] = explode(':', $reference, 2) + [1 => ''];
         $side = CompareSide::tryFrom($sideValue);
         $entry = $side === null ? null : $this->contentActivitySource->entry($key);
-        if ($side === null || $entry === null || !$this->nodeVersions->isComparable($entry)) {
+        if ($side === null || $entry === null) {
+            return null;
+        }
+        $isRemoval = $side === CompareSide::After && $this->nodeVersions->isRemoval($entry);
+        if (!$isRemoval && !$this->nodeVersions->isComparable($entry)) {
             return null;
         }
 
         $dimensionSpacePoint = $entry->dimensionSpacePoint === null
             ? DimensionSpacePoint::createWithoutDimensions()
             : DimensionSpacePoint::fromJsonString($entry->dimensionSpacePoint);
-        // the node as it is live now, hidden or not (not when it was removed since)
+        // the node as it is live now, hidden or not (not when it was removed since); a removed one from the trash bin
+        // (soft removed: there until it is removed for good)
         $node = $this->contentRepositoryRegistry->get($this->contentActivitySource->contentRepositoryId())
             ->getContentGraph(WorkspaceName::forLive())
-            ->getSubgraph($dimensionSpacePoint, NeosVisibilityConstraints::excludeRemoved())
+            ->getSubgraph(
+                $dimensionSpacePoint,
+                $isRemoval ? VisibilityConstraints::createEmpty() : NeosVisibilityConstraints::excludeRemoved()
+            )
             ->findNodeById(NodeAggregateId::fromString($entry->itemId));
+        if ($node === null || $isRemoval) {
+            return $node;
+        }
 
-        return $node === null ? null : $this->nodeVersions->apply($node, $entry, $side);
+        return $this->nodeVersions->apply($node, $entry, $side);
     }
 }

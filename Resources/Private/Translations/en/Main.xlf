@@ -31,6 +31,9 @@
             <trans-unit id="group.published.many" xml:space="preserve"><source>published {0} changes</source></trans-unit>
             <trans-unit id="group.direct.one" xml:space="preserve"><source>made 1 change</source></trans-unit>
             <trans-unit id="group.direct.many" xml:space="preserve"><source>made {0} changes</source></trans-unit>
+            <trans-unit id="group.page.one" xml:space="preserve"><source>1 change</source></trans-unit>
+            <trans-unit id="group.page.many" xml:space="preserve"><source>{0} changes</source></trans-unit>
+            <trans-unit id="group.page.unknown" xml:space="preserve"><source>Other content</source></trans-unit>
 
             <trans-unit id="entry.onPage" xml:space="preserve"><source>on {0}</source></trans-unit>
             <trans-unit id="entry.open" xml:space="preserve"><source>Open</source></trans-unit>
