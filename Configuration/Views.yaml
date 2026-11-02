@@ -3,4 +3,6 @@
   options:
     fusionPathPatterns:
       - 'resource://Neos.Fusion/Private/Fusion'
+      # the compare of a change (Devclaim.NeosModernBackend)
+      - 'resource://Devclaim.NeosModernBackend/Private/Fusion/Backend'
       - 'resource://Devclaim.NeosActivity/Private/Fusion'

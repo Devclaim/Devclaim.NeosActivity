@@ -164,7 +164,6 @@ final class ActivityController extends AbstractModuleController
             'scope' => $this->scope($page->entries, $current),
             'rail' => $this->rail($filter, $current),
             'indexUri' => $this->moduleUri([]),
-            'adapter' => $this->styleguideAdapter(),
             'site' => SiteDetectionResult::fromRequest($this->request->getHttpRequest())->siteNodeName->value,
             'nextUri' => $page->next === null
                 ? null

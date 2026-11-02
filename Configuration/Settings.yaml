@@ -35,6 +35,13 @@ Neos:
               labelProperties: ['title', 'label', 'name', 'headline', 'text']
 
   Neos:
+    # the content module (Neos UI) translates its menu itself, with the translations of these packages: the label of
+    # the module there
+    userInterface:
+      translation:
+        autoInclude:
+          'Devclaim.NeosActivity':
+            - Main
     modules:
       management:
         submodules:
@@ -46,7 +53,10 @@ Neos:
             privilegeTarget: 'Devclaim.NeosActivity:Module'
             mainStylesheet: 'Lite'
             additionalResources:
+              # the compare of a change before the module, whose script uses it (Devclaim.NeosModernBackend)
               styleSheets:
+                'Devclaim.NeosModernBackend:Compare': 'resource://Devclaim.NeosModernBackend/Public/Backend/Compare.css'
                 'Module': 'resource://Devclaim.NeosActivity/Public/Styles/Module.css'
               javaScripts:
+                'Devclaim.NeosModernBackend:Compare': 'resource://Devclaim.NeosModernBackend/Public/Backend/Compare.js'
                 'Module': 'resource://Devclaim.NeosActivity/Public/Scripts/Module.js'

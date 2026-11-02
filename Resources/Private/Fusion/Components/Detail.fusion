@@ -1,9 +1,12 @@
 ##
 # The opened entry (hidden until selected, Module.js): what, who, when, and the change: before and after as the
-# website shows them (kind "change"), the new content (kind "new"), the changed fields, or what the action means
+# website shows them (kind "change"), the new content (kind "new"; both the compare of Devclaim.NeosModernBackend),
+# the changed fields, or what the action means
 #
 prototype(Devclaim.NeosActivity:Detail) < prototype(Neos.Fusion:Component) {
     entry = null
+    # the site whose theme the previews use
+    site = ''
 
     @private {
         i18n = 'Devclaim.NeosActivity:Main:'
@@ -41,49 +44,9 @@ prototype(Devclaim.NeosActivity:Detail) < prototype(Neos.Fusion:Component) {
                 </div>
             </header>
 
-            <Neos.Fusion:Fragment @if.shown={props.entry.kind == 'change'}>
-                <div class="activity__bar">
-                    <div class="activity__views" role="tablist">
-                        <button type="button" class="activity__view activity__view--active" data-view="side">{I18n.translate(private.i18n + 'view.side')}</button>
-                        <button type="button" class="activity__view" data-view="slider">{I18n.translate(private.i18n + 'view.slider')}</button>
-                    </div>
-                    <span class="activity__hint">{I18n.translate(private.i18n + 'detail.asOnSite')}</span>
-                </div>
-                <div class="activity__compare" data-pane="side">
-                    <figure class="activity__side">
-                        <figcaption><span class="activity__dot"></span>{I18n.translate(private.i18n + 'compare.before')}</figcaption>
-                        <iframe class="activity__frame" data-ref={props.entry.compare.before} data-side="before" title={I18n.translate(private.i18n + 'compare.before')}></iframe>
-                    </figure>
-                    <figure class="activity__side">
-                        <figcaption><span class="activity__dot activity__dot--after"></span>{I18n.translate(private.i18n + 'compare.after')}</figcaption>
-                        <iframe class="activity__frame" data-ref={props.entry.compare.after} data-side="after" title={I18n.translate(private.i18n + 'compare.after')}></iframe>
-                    </figure>
-                </div>
-                <div class="activity__slider-pane" data-pane="slider" hidden>
-                    <div class="activity__stack">
-                        <iframe class="activity__frame" data-ref={props.entry.compare.after} title={I18n.translate(private.i18n + 'compare.after')}></iframe>
-                        <div class="activity__clip">
-                            <iframe class="activity__frame" data-ref={props.entry.compare.before} title={I18n.translate(private.i18n + 'compare.before')}></iframe>
-                        </div>
-                        <!-- the line between before and after, dragged (Module.js); the shield lies over the frames while dragging -->
-                        <div class="activity__shield" hidden></div>
-                        <div class="activity__handle" role="slider" tabindex="0" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" aria-label={I18n.translate(private.i18n + 'view.slider')}>
-                            <span class="activity__grip"><i class="fas fa-arrows-alt-h" aria-hidden="true"></i></span>
-                        </div>
-                        <span class="activity__corner activity__corner--before">{I18n.translate(private.i18n + 'compare.before')}</span>
-                        <span class="activity__corner activity__corner--after">{I18n.translate(private.i18n + 'compare.after')}</span>
-                    </div>
-                </div>
-            </Neos.Fusion:Fragment>
-
-            <Neos.Fusion:Fragment @if.shown={props.entry.kind == 'new'}>
-                <div class="activity__bar">
-                    <span class="activity__hint">{I18n.translate(private.i18n + 'detail.newOnSite')}</span>
-                </div>
-                <div class="activity__single" data-pane="side">
-                    <iframe class="activity__frame" data-ref={props.entry.compare.after} title={I18n.translate(private.i18n + 'view.preview')}></iframe>
-                </div>
-            </Neos.Fusion:Fragment>
+            <div class="activity__compare" @if.shown={props.entry.compare}>
+                <Devclaim.NeosModernBackend:Compare before={props.entry.compare.before} after={props.entry.compare.after} site={props.site}/>
+            </div>
 
             <p class="activity__note" @if.shown={props.entry.kind == 'state'}>
                 {props.entry.note || I18n.translate(private.i18n + 'note.default')}

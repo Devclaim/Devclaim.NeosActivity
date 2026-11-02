@@ -10,8 +10,7 @@ old and the new values. One list for several sources, merged when it is shown; n
 - **Other sources** implement `ActivitySourceInterface` and are registered in the settings (for example the moderation
     cases of `Devclaim.NeosModeration`, read from their own history).
 
-Read only for now; undo comes next (Planning in the project using it). The look of the compare (frames, views, word
-diff) moves to `Devclaim.NeosModernBackend`, to be shared with the workspace module.
+Read only for now; undo comes next (Planning in the project using it).
 
 ## The module
 
@@ -40,7 +39,9 @@ or new values (the other properties and the child nodes as they are now). The fr
 log). The page renders the node with the components and styles of the website, inside `data-styleguide-root`; the
 module sizes its frame to that element.
 
-An adapter without `nodePreview` (or no adapter configured): the module shows the changed fields only.
+The frames, the views and the word diff are the compare of `Devclaim.NeosModernBackend` (required), shared with the
+review of the workspace module. An adapter without `nodePreview` (or no adapter configured): the module shows the
+changed fields only.
 
 ## How the content log is built
 

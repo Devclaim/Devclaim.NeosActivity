@@ -10,13 +10,12 @@ Devclaim.NeosActivity.ActivityController.index = Neos.Fusion:Component {
     scope = ${scope}
     rail = ${rail}
     indexUri = ${indexUri}
-    adapter = ${adapter}
     site = ${site}
     nextUri = ${nextUri}
     firstUri = ${firstUri}
 
     renderer = afx`
-        <div class="activity" data-activity data-adapter={props.adapter} data-site={props.site}>
+        <div class="activity" data-activity>
             <button type="button" class="activity__filter-toggle" data-filter-toggle aria-expanded="false">
                 <i class="fas fa-filter" aria-hidden="true"></i>
                 {I18n.translate('Devclaim.NeosActivity:Main:filter.toggle')}
@@ -68,7 +67,7 @@ Devclaim.NeosActivity.ActivityController.index = Neos.Fusion:Component {
                 <Neos.Fusion:Loop items={props.days} itemName="day">
                     <Neos.Fusion:Loop items={day.groups} itemName="group">
                         <Neos.Fusion:Loop items={group.entries} itemName="entry">
-                            <Devclaim.NeosActivity:Detail entry={entry}/>
+                            <Devclaim.NeosActivity:Detail entry={entry} site={props.site}/>
                         </Neos.Fusion:Loop>
                     </Neos.Fusion:Loop>
                 </Neos.Fusion:Loop>

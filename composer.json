@@ -8,7 +8,8 @@
 		"neos/flow": "^9.2",
 		"neos/neos": "^9.2",
 		"neos/neos-ui": "^9.2",
-		"devclaim/neos-styleguide": "*"
+		"devclaim/neos-styleguide": "*",
+		"devclaim/neos-modern-backend": "*"
 	},
 	"autoload": {
 		"psr-4": {
