@@ -55,8 +55,10 @@ Neos:
             additionalResources:
               # the compare of a change before the module, whose script uses it (Devclaim.NeosModernBackend)
               styleSheets:
+                'Devclaim.NeosStyleguide:Preview': 'resource://Devclaim.NeosStyleguide/Public/Preview/Preview.css'
                 'Devclaim.NeosModernBackend:Compare': 'resource://Devclaim.NeosModernBackend/Public/Backend/Compare.css'
                 'Module': 'resource://Devclaim.NeosActivity/Public/Styles/Module.css'
               javaScripts:
+                'Devclaim.NeosStyleguide:Preview': 'resource://Devclaim.NeosStyleguide/Public/Preview/Preview.js'
                 'Devclaim.NeosModernBackend:Compare': 'resource://Devclaim.NeosModernBackend/Public/Backend/Compare.js'
                 'Module': 'resource://Devclaim.NeosActivity/Public/Scripts/Module.js'
